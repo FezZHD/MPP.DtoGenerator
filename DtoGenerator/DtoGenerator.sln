@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DtoGenerator", "DtoGenerato
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeInterface", "TypeInterface\TypeInterface.csproj", "{5754C956-86A5-4526-BF2B-E8A7F40DF6B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultTypes", "DefaultTypes\DefaultTypes.csproj", "{C4EF2FCD-CCD6-44BA-8501-126D0F917628}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5754C956-86A5-4526-BF2B-E8A7F40DF6B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5754C956-86A5-4526-BF2B-E8A7F40DF6B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5754C956-86A5-4526-BF2B-E8A7F40DF6B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4EF2FCD-CCD6-44BA-8501-126D0F917628}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4EF2FCD-CCD6-44BA-8501-126D0F917628}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4EF2FCD-CCD6-44BA-8501-126D0F917628}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4EF2FCD-CCD6-44BA-8501-126D0F917628}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
