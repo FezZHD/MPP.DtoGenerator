@@ -47,7 +47,7 @@
     <Compile Include="Integer32Type.cs" />
     <Compile Include="Integer64Type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringTime.cs" />
+    <Compile Include="StringType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TypeInterface\TypeInterface.csproj">

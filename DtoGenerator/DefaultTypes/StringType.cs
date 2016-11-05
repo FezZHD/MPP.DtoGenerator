@@ -3,7 +3,7 @@ using TypeInterface;
 
 namespace DefaultTypes
 {
-    public class StringTime:IType
+    public class StringType:IType
     {
         public string Name => "string";
         public string Format => "string";
