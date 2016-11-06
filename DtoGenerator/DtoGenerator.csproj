@@ -43,11 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DescriptionTypes\ClassDescription.cs" />
+    <Compile Include="DescriptionTypes\PropertyDescription.cs" />
     <Compile Include="DtoGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="TypeInterface\TypeInterface.csproj">
+      <Project>{5754c956-86a5-4526-bf2b-e8a7f40df6b9}</Project>
+      <Name>TypeInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
