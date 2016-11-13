@@ -12,17 +12,26 @@ namespace DtoGeneratorTester
     {
         static void Main(string[] args)
         {
-            if (File.Exists(args[0]))
+            try
             {
-                Console.WriteLine("K");
-                var generator = new DtoGenarator(args[0]);
-
+                if (File.Exists(args[0]))
+                {
+                    Console.WriteLine("K");
+                    var generator = new DtoGenarator(args[0]);
+                }
+                else
+                {
+                    Console.WriteLine($"file {args[0]} doesn't exist");
+                }
             }
-            else
+            catch (IndexOutOfRangeException)
             {
-                Console.WriteLine($"file {args[0]} doesn't exist");
+                Console.WriteLine("Missing file path");
             }
-            Console.ReadKey();
+            finally
+            {
+                Console.ReadKey();
+            }           
         }
     }
 }
