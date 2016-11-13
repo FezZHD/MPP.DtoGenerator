@@ -1,0 +1,44 @@
+{
+    "classDescriptions": [
+        {
+            "className": "SomethingWicked",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "Int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "Int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "SomethingGood",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "Int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "Int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        }
+    ]
+}

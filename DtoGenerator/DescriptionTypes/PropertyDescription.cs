@@ -12,6 +12,6 @@ namespace DtoGenerator.DescriptionTypes
         internal string Format { get; set; }
 
         [JsonProperty("type")]
-        internal Type Type { get; set; }
+        internal string Type { get; set; }
     }
 }
