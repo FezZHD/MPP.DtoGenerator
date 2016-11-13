@@ -1,23 +1,17 @@
 ﻿using System;
 using Newtonsoft.Json;
-using TypeInterface;
 
 namespace DtoGenerator.DescriptionTypes
 {
-    internal class PropertyDescription: IType
+    internal class PropertyDescription
     {
         [JsonProperty("name")]
-        public string Name { get; }
-        [JsonProperty("format")]
-        public string Format { get; }
-        [JsonProperty("type")]
-        public Type Type { get; }
+        internal string Name { get; set; }
 
-        internal PropertyDescription(string name, string format, Type type)
-        {
-            Name = name;
-            Format = format;
-            Type = type;
-        }
+        [JsonProperty("format")]
+        internal string Format { get; set; }
+
+        [JsonProperty("type")]
+        internal Type Type { get; set; }
     }
 }

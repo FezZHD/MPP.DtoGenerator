@@ -7,6 +7,6 @@ namespace DefaultTypes
     {
         public string Name => "integer";
         public string Format => "int32";
-        public Type Type => typeof(Int64);
+        public Type Type => typeof(Int32);
     }
 }
