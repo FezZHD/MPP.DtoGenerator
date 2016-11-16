@@ -3,7 +3,7 @@ using TypeInterface;
 
 namespace DefaultTypes
 {
-    class Integer64Type :IType
+    public class Integer64Type :IType
     {
         public string Name => "integer";
         public string Format => "int64";

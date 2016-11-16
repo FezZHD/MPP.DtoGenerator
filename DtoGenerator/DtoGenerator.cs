@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using DefaultTypes;
 using DtoGenerator.DescriptionTypes;
 using Newtonsoft.Json.Linq;
+using TypeInterface;
 
 namespace DtoGenerator
 {
     public class DtoGenarator
     {
+
+        internal List<IType> TypeList = new List<IType>();
 
         public DtoGenarator(string path)
         {
@@ -38,6 +42,19 @@ namespace DtoGenerator
                 resultString = streamReader.ReadToEnd();
             }
             return resultString;
+        }
+
+
+        private void LoadDefaultTypes()
+        {
+            TypeList.Add(new BooleanType());
+            TypeList.Add(new ByteType());
+            TypeList.Add(new DateType());
+            TypeList.Add(new FloatType());
+            TypeList.Add(new Integer32Type());
+            TypeList.Add(new Integer64Type());
+            TypeList.Add(new StringType());
+            //todo make assembly loader
         }
     }
 }
