@@ -6,12 +6,12 @@
                 {
                     "name": "FirstProperty",
                     "type": "integer",
-                    "format": "Int32"
+                    "format": "int32"
                 },
                 {
                     "name": "SecondProperty",
                     "type": "integer",
-                    "format": "Int64"
+                    "format": "int64"
                 },
                 {
                     "name": "ThirdProperty",
@@ -26,12 +26,12 @@
                 {
                     "name": "FirstProperty",
                     "type": "integer",
-                    "format": "Int32"
+                    "format": "int32"
                 },
                 {
                     "name": "SecondProperty",
                     "type": "integer",
-                    "format": "Int64"
+                    "format": "int64"
                 },
                 {
                     "name": "ThirdProperty",

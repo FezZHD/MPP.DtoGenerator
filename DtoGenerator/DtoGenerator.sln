@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultTypes", "DefaultType
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DtoGeneratorTester", "..\DtoGeneratorTester\DtoGeneratorTester.csproj", "{6FC1B5E8-FB46-47AE-A07F-4823C01AD595}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypePlugin", "..\TypePlugin\TypePlugin.csproj", "{8E2D7E2A-4AB1-416F-AB2B-C97B86CF56CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6FC1B5E8-FB46-47AE-A07F-4823C01AD595}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FC1B5E8-FB46-47AE-A07F-4823C01AD595}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FC1B5E8-FB46-47AE-A07F-4823C01AD595}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E2D7E2A-4AB1-416F-AB2B-C97B86CF56CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E2D7E2A-4AB1-416F-AB2B-C97B86CF56CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E2D7E2A-4AB1-416F-AB2B-C97B86CF56CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E2D7E2A-4AB1-416F-AB2B-C97B86CF56CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
