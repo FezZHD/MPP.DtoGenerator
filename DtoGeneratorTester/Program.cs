@@ -16,8 +16,12 @@ namespace DtoGeneratorTester
             {
                 if (File.Exists(args[0]))
                 {
+                    if (!Directory.Exists(args[1]))
+                    {
+                        Directory.CreateDirectory(args[1]);
+                    }
                     Console.WriteLine("K");
-                    var generator = new DtoGenarator(args[0]);
+                    var generator = new DtoGenarator(args[0], args[1]);
                 }
                 else
                 {
@@ -26,7 +30,7 @@ namespace DtoGeneratorTester
             }
             catch (IndexOutOfRangeException)
             {
-                Console.WriteLine("Missing file path");
+                Console.WriteLine("Missing file path or output folder path");
             }
             finally
             {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -18,8 +17,10 @@ namespace DtoGenerator
 
         internal List<IType> TypeList = new List<IType>();
 
-        public DtoGenarator(string path)
+        private string _folderPath;
+        public DtoGenarator(string path, string folderPath)
         {
+            _folderPath = folderPath;
             StartJob(path);
         }
 
@@ -27,6 +28,8 @@ namespace DtoGenerator
         {
             var classList = DeserialiazeJson<List<ClassDescription>>(ReadJsonFromFile(path));
             LoadTypes();
+            var generator = new ClassGenerator(classList, TypeList, "Test", _folderPath);
+            generator.Generate();
         }
 
 
