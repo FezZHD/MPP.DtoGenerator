@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using DefaultTypes;
 using DtoGenerator.DescriptionTypes;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TypeInterface;
 
@@ -18,6 +19,7 @@ namespace DtoGenerator
         internal List<IType> TypeList = new List<IType>();
 
         private string _folderPath;
+
         public DtoGenarator(string path, string folderPath)
         {
             _folderPath = folderPath;
@@ -26,7 +28,16 @@ namespace DtoGenerator
 
         private void StartJob(string path)
         {
-            var classList = DeserialiazeJson<List<ClassDescription>>(ReadJsonFromFile(path));
+            List<ClassDescription> classList;
+            try
+            {
+                classList = DeserialiazeJson<List<ClassDescription>>(ReadJsonFromFile(path));
+            }
+            catch (JsonReaderException exception)
+            {
+                Console.WriteLine($"Json was corrupted, pleas fix it.\n{exception.Message}");
+                return;
+            }
             LoadTypes();
             var generator = new ClassGenerator(classList, TypeList, "Test", _folderPath);
             generator.Generate();
@@ -35,10 +46,17 @@ namespace DtoGenerator
 
         private T DeserialiazeJson<T>(string json) where T : IEnumerable, new()
         {
-            JToken jToken = JObject.Parse(json);
+            JToken jToken;
+            try
+            {
+                jToken = JObject.Parse(json);
+            }
+            catch (JsonReaderException exception)
+            {
+              throw new JsonReaderException(exception.Message);
+            }
             var classList = jToken["classDescriptions"].ToObject<T>();
             return classList;
-            ;
         }
 
 
