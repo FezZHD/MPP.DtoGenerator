@@ -16,6 +16,426 @@
                 {
                     "name": "ThirdProperty",
                     "type": "number",
+                    "format": "decimal"
+                }
+            ]
+        },
+        {
+            "className": "Class1",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class2",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class3",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class4",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class5",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class6",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class7",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class8",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class9",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class10",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class11",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class12",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class13",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class14",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class15",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class116",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class17",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class18",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class119",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "decimal"
+                }
+            ]
+        },
+        {
+            "className": "Class20",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
+                    "format": "float"
+                }
+            ]
+        },
+        {
+            "className": "Class121",
+            "properties": [
+                {
+                    "name": "FirstProperty",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "SecondProperty",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                {
+                    "name": "ThirdProperty",
+                    "type": "number",
                     "format": "float"
                 }
             ]

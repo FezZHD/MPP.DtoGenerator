@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 using DtoGenerator;
 
 namespace DtoGeneratorTester
@@ -12,25 +9,40 @@ namespace DtoGeneratorTester
     {
         static void Main(string[] args)
         {
+            var namespaceName = ConfigurationManager.AppSettings["Namespace"];
+            var maximumTaskCount = ConfigurationManager.AppSettings["MaximumPoolTasks"];
             try
             {
-                if (File.Exists(args[0]))
+                int maximumTaskCountInt = Int32.Parse(maximumTaskCount);
+                if (!String.IsNullOrWhiteSpace(namespaceName))
                 {
-                    if (!Directory.Exists(args[1]))
+                    if (File.Exists(args[0]))
                     {
-                        Directory.CreateDirectory(args[1]);
+                        if (!Directory.Exists(args[1]))
+                        {
+                            Directory.CreateDirectory(args[1]);
+                        }
+                        Console.WriteLine("K");
+                        var generator = new DtoGenarator(args[0], args[1], maximumTaskCountInt, namespaceName);
+                        generator.StartJob();
                     }
-                    Console.WriteLine("K");
-                    var generator = new DtoGenarator(args[0], args[1]);
+                    else
+                    {
+                        Console.WriteLine($"file {args[0]} doesn't exist");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine($"file {args[0]} doesn't exist");
+                    Console.WriteLine("Miss Namespace name");
                 }
             }
             catch (IndexOutOfRangeException)
             {
                 Console.WriteLine("Missing file path or output folder path");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Error number for thread count in config, please, remove all spaces");
             }
             finally
             {

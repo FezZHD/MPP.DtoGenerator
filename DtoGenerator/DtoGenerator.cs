@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using DefaultTypes;
 using DtoGenerator.DescriptionTypes;
 using Newtonsoft.Json;
@@ -16,22 +15,33 @@ namespace DtoGenerator
     public class DtoGenarator
     {
 
-        internal List<IType> TypeList = new List<IType>();
+        internal static readonly List<IType> TypeList = new List<IType>();
+        internal static List<ClassDescription> ClassList;
 
-        private string _folderPath;
+        private readonly string _folderPath;
+        private readonly string _namespaceName;
+        private readonly int _taskCount;
+        private readonly string _jsonPath;
 
-        public DtoGenarator(string path, string folderPath)
+        public DtoGenarator(string path, string folderPath, int taskCount, string namespaceName)
         {
+           
+            if (taskCount <= 0)
+            {
+                Console.WriteLine($"Task count can not be {taskCount}, set to 5");
+                _taskCount = 5;
+            }
+            _jsonPath = path;
+            _taskCount = taskCount;
+            _namespaceName = namespaceName;
             _folderPath = folderPath;
-            StartJob(path);
         }
 
-        private void StartJob(string path)
+        public void StartJob()
         {
-            List<ClassDescription> classList;
             try
             {
-                classList = DeserialiazeJson<List<ClassDescription>>(ReadJsonFromFile(path));
+                ClassList = DeserialiazeJson<List<ClassDescription>>(ReadJsonFromFile(_jsonPath));
             }
             catch (JsonReaderException exception)
             {
@@ -39,8 +49,10 @@ namespace DtoGenerator
                 return;
             }
             LoadTypes();
-            var generator = new ClassGenerator(classList, TypeList, "Test", _folderPath);
-            generator.Generate();
+            using (var generator = new ClassGenerator(_namespaceName, _folderPath, _taskCount))
+            {
+                 generator.Generate();
+            }
         }
 
 
