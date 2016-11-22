@@ -78,7 +78,7 @@ namespace DtoGenerator
                             {
                                 Console.WriteLine(
                                     $"Unknown type at property {property.Name}");
-                                throw;
+                                throw new InvalidOperationException();
                             }
                             generatedProperty =
                                 generatedProperty.AddAccessorListAccessors(
@@ -94,10 +94,15 @@ namespace DtoGenerator
                     }
                     compilationUnit = compilationUnit.AddMembers(nameSpace);
                     WriteToFile(compilationUnit, currentClass.ClassName);
-                }   
+                }
             }
-            catch
+            catch(InvalidOperationException)
             {
+                Console.WriteLine($"Exception at thread {Thread.CurrentThread.ManagedThreadId}");
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine($"Exception at thread {Thread.CurrentThread.ManagedThreadId}");
             }
             finally
