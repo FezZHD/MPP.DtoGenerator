@@ -124,6 +124,10 @@ namespace DtoGenerator
         {
             WaitHandle.WaitAll(_manualResetEvent);
             _semaphore.Dispose();
+            foreach (var resetEvent in _manualResetEvent)
+            {
+                resetEvent.Close();
+            }
         }
     }
 }

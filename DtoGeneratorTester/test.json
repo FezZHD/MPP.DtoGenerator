@@ -15,8 +15,8 @@
                 },
                 {
                     "name": "ThirdProperty",
-                    "type": "number",
-                    "format": "decimal"
+                    "type": "bool",
+                    "format": ""
                 }
             ]
         },
