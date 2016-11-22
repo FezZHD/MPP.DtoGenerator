@@ -35,6 +35,7 @@ namespace DtoGenerator
             foreach (var currentClass in DtoGenarator.ClassList)
             {
                 _manualResetEvent[eventCount] = new ManualResetEvent(false);
+                _semaphore.Wait();
                 ThreadPool.QueueUserWorkItem(GenerateClass, new object[] {currentClass, _manualResetEvent[eventCount]});
                 eventCount++;
             }
@@ -44,19 +45,19 @@ namespace DtoGenerator
         private void GenerateClass(object methodParameter)
         {
             var paremeters = methodParameter as object[];
-            if (paremeters != null)
+            ManualResetEvent resetEvent = null;
+            try
             {
-                var currentClass = paremeters[0] as ClassDescription;
-                var resetEvent = paremeters[1] as ManualResetEvent;
-                if (resetEvent == null || currentClass == null)
+                if (paremeters != null)
                 {
-                    return;
-                }
-                _semaphore.Wait();
-                try
-                {
+                    var currentClass = paremeters[0] as ClassDescription;
+                    resetEvent = paremeters[1] as ManualResetEvent;
+                    if (resetEvent == null || currentClass == null)
+                    {
+                        throw new NullReferenceException("Manual Reset Event or Class is empty");
+                    }
                     Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} thread is running");
-                    var compilitionUnit = SyntaxFactory.CompilationUnit();
+                    var compilationUnit = SyntaxFactory.CompilationUnit();
                     var nameSpace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(_namespace));
                     {
                         var classCreation =
@@ -91,18 +92,18 @@ namespace DtoGenerator
                         }
                         nameSpace = nameSpace.AddMembers(classCreation);
                     }
-                    compilitionUnit = compilitionUnit.AddMembers(nameSpace);
-                    WriteToFile(compilitionUnit, currentClass.ClassName);
-                }
-                catch
-                {
-                    Console.WriteLine($"Exception at thread {Thread.CurrentThread.ManagedThreadId}");
-                }
-                finally
-                {
-                    _semaphore.Release();
-                    resetEvent.Set();
-                }
+                    compilationUnit = compilationUnit.AddMembers(nameSpace);
+                    WriteToFile(compilationUnit, currentClass.ClassName);
+                }   
+            }
+            catch
+            {
+                Console.WriteLine($"Exception at thread {Thread.CurrentThread.ManagedThreadId}");
+            }
+            finally
+            {
+                _semaphore.Release();
+                resetEvent?.Set();
             }
         }
 
