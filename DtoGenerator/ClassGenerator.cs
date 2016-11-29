@@ -10,7 +10,7 @@ using DtoGenerator.DescriptionTypes;
 
 namespace DtoGenerator
 {
-    internal class ClassGenerator
+    internal class ClassGenerator: IDisposable
     {
 
         private readonly string namespaceName;
@@ -19,7 +19,7 @@ namespace DtoGenerator
 
         private readonly SemaphoreSlim semaphore;
 
-        
+        private readonly WaitHandle[] resetEvents = new WaitHandle[DtoGenarator.ClassList.Count]; 
 
         internal ClassGenerator(string namespaceName, string outputFolder, int maxTaskCount)
         {
@@ -34,24 +34,29 @@ namespace DtoGenerator
             var eventCount = 0;
             foreach (var currentClass in DtoGenarator.ClassList)
             {
+                resetEvents[eventCount] = new ManualResetEvent(false);
                 semaphore.Wait();
-                ThreadPool.QueueUserWorkItem(GenerateClass, new object[] {currentClass ,eventCount});
+                ThreadPool.QueueUserWorkItem(GenerateClass, new object[] {currentClass ,resetEvents[eventCount]});
                 eventCount++;
             }
+
+            WaitHandle.WaitAll(resetEvents);
         }
 
 
         private void GenerateClass(object methodParameter)
         {
             var paremeters = methodParameter as object[];
+            ManualResetEvent resetEvent = null;
             try
             {
                 if (paremeters != null)
                 {
                     var currentClass = paremeters[0] as ClassDescription;
-                    if (currentClass == null)
+                    resetEvent = paremeters[1] as ManualResetEvent;
+                    if (currentClass == null || resetEvent == null)
                     {
-                        throw new NullReferenceException("Class is empty");
+                        throw new NullReferenceException("Class or reset event is empty");
                     }
                     Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} thread is running");
                     var compilationUnit = SyntaxFactory.CompilationUnit();
@@ -104,6 +109,7 @@ namespace DtoGenerator
             }
             finally
             {
+                resetEvent?.Set();
                 semaphore.Release();
             }
         }
@@ -120,6 +126,15 @@ namespace DtoGenerator
             SyntaxNode formattedNode = Formatter.Format(cu, new AdhocWorkspace());
             var writableString = formattedNode.ToFullString();
             File.WriteAllText($"{folderPath}{Path.DirectorySeparatorChar}{className}.cs", writableString);
+        }
+
+        public void Dispose()
+        {
+            semaphore.Dispose();
+            foreach (var resetEvent in resetEvents)
+            {
+                resetEvent.Dispose();
+            }
         }
     }
 }

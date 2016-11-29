@@ -18,12 +18,10 @@ namespace DtoGenerator
         internal static readonly List<IType> TypeList = new List<IType>();
         internal static List<ClassDescription> ClassList;
 
-        internal static readonly Dictionary<string, Type> TypeDictionary = new Dictionary<string, Type>();
-
-        private readonly string _folderPath;
-        private readonly string _namespaceName;
-        private readonly int _taskCount;
-        private readonly string _jsonPath;
+        private readonly string folderPath;
+        private readonly string namespaceName;
+        private readonly int taskCount;
+        private readonly string jsonPath;
 
         public DtoGenarator(string path, string folderPath, int taskCount, string namespaceName)
         {
@@ -31,19 +29,19 @@ namespace DtoGenerator
             if (taskCount <= 0)
             {
                 Console.WriteLine($"Task count can not be {taskCount}, set to 5");
-                _taskCount = 5;
+                taskCount = 5;
             }
-            _jsonPath = path;
-            _taskCount = taskCount;
-            _namespaceName = namespaceName;
-            _folderPath = folderPath;
+            jsonPath = path;
+            this.taskCount = taskCount;
+            this.namespaceName = namespaceName;
+            this.folderPath = folderPath;
         }
 
         public void StartJob()
         {
             try
             {
-                ClassList = DeserialiazeJson<List<ClassDescription>>(ReadJsonFromFile(_jsonPath));
+                ClassList = DeserialiazeJson<List<ClassDescription>>(ReadJsonFromFile(jsonPath));
             }
             catch (JsonReaderException exception)
             {
@@ -51,8 +49,11 @@ namespace DtoGenerator
                 return;
             }
             LoadTypes();
-            var generator = new ClassGenerator(_namespaceName, _folderPath, _taskCount);
-            generator.Generate();
+            using (var generator = new ClassGenerator(namespaceName, folderPath, taskCount))
+            {
+                generator.Generate();
+            }
+                
         }
 
 
@@ -94,7 +95,6 @@ namespace DtoGenerator
             TypeList.Add(new Integer64Type());
             TypeList.Add(new StringType());
             LoadAssemblies();
-            ConvertToDictionary();
             //todo make assembly loader
         }
 
@@ -137,13 +137,5 @@ namespace DtoGenerator
             }
         }
 
-
-        private void ConvertToDictionary()
-        {
-            foreach (var type in TypeList)
-            {
-                TypeDictionary.Add(type.Format, type.Type);
-            }
-        }
     }
 }
