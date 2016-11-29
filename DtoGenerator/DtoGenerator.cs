@@ -51,10 +51,8 @@ namespace DtoGenerator
                 return;
             }
             LoadTypes();
-            using (var generator = new ClassGenerator(_namespaceName, _folderPath, _taskCount))
-            {
-                 generator.Generate();
-            }
+            var generator = new ClassGenerator(_namespaceName, _folderPath, _taskCount);
+            generator.Generate();
         }
 
 

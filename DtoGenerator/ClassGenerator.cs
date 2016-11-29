@@ -10,22 +10,22 @@ using DtoGenerator.DescriptionTypes;
 
 namespace DtoGenerator
 {
-    internal class ClassGenerator: IDisposable
+    internal class ClassGenerator
     {
 
-        private readonly string _namespace;
+        private readonly string namespaceName;
 
-        private readonly string _folderPath;
+        private readonly string folderPath;
 
-        private readonly SemaphoreSlim _semaphore;
+        private readonly SemaphoreSlim semaphore;
 
-        private readonly WaitHandle[] _manualResetEvent = new WaitHandle[DtoGenarator.ClassList.Count];
+        
 
         internal ClassGenerator(string namespaceName, string outputFolder, int maxTaskCount)
         {
-            _namespace = namespaceName;
-            _folderPath = outputFolder;
-            _semaphore = new SemaphoreSlim(maxTaskCount, maxTaskCount);
+            this.namespaceName = namespaceName;
+            folderPath = outputFolder;
+            semaphore = new SemaphoreSlim(maxTaskCount);
         }
 
 
@@ -34,9 +34,8 @@ namespace DtoGenerator
             var eventCount = 0;
             foreach (var currentClass in DtoGenarator.ClassList)
             {
-                _manualResetEvent[eventCount] = new ManualResetEvent(false);
-                _semaphore.Wait();
-                ThreadPool.QueueUserWorkItem(GenerateClass, new object[] {currentClass, _manualResetEvent[eventCount]});
+                semaphore.Wait();
+                ThreadPool.QueueUserWorkItem(GenerateClass, new object[] {currentClass ,eventCount});
                 eventCount++;
             }
         }
@@ -45,20 +44,18 @@ namespace DtoGenerator
         private void GenerateClass(object methodParameter)
         {
             var paremeters = methodParameter as object[];
-            ManualResetEvent resetEvent = null;
             try
             {
                 if (paremeters != null)
                 {
                     var currentClass = paremeters[0] as ClassDescription;
-                    resetEvent = paremeters[1] as ManualResetEvent;
-                    if (resetEvent == null || currentClass == null)
+                    if (currentClass == null)
                     {
-                        throw new NullReferenceException("Manual Reset Event or Class is empty");
+                        throw new NullReferenceException("Class is empty");
                     }
                     Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} thread is running");
                     var compilationUnit = SyntaxFactory.CompilationUnit();
-                    var nameSpace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(_namespace));
+                    var nameSpace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(namespaceName));
                     
                     var classCreation =
                             SyntaxFactory.ClassDeclaration(currentClass.ClassName)
@@ -78,7 +75,8 @@ namespace DtoGenerator
                             {
                                 Console.WriteLine(
                                     $"Unknown type at property {property.Name}");
-                                throw new InvalidOperationException();
+                                Console.WriteLine($"Exception at thread {Thread.CurrentThread.ManagedThreadId}");
+                                continue;
                             }
                             generatedProperty =
                                 generatedProperty.AddAccessorListAccessors(
@@ -90,7 +88,7 @@ namespace DtoGenerator
                                         .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
                             classCreation = classCreation.AddMembers(generatedProperty);
                         }
-                        nameSpace = nameSpace.AddMembers(classCreation);
+                    nameSpace = nameSpace.AddMembers(classCreation);
                     compilationUnit = compilationUnit.AddMembers(nameSpace);
                     WriteToFile(compilationUnit, currentClass.ClassName);
                 }
@@ -106,8 +104,7 @@ namespace DtoGenerator
             }
             finally
             {
-                _semaphore.Release();
-                resetEvent?.Set();
+                semaphore.Release();
             }
         }
 
@@ -122,17 +119,7 @@ namespace DtoGenerator
         {
             SyntaxNode formattedNode = Formatter.Format(cu, new AdhocWorkspace());
             var writableString = formattedNode.ToFullString();
-            File.WriteAllText($"{_folderPath}{Path.DirectorySeparatorChar}{className}.cs", writableString);
-        }
-
-        public void Dispose()
-        {
-            WaitHandle.WaitAll(_manualResetEvent);
-            _semaphore.Dispose();
-            foreach (var resetEvent in _manualResetEvent)
-            {
-                resetEvent.Close();
-            }
+            File.WriteAllText($"{folderPath}{Path.DirectorySeparatorChar}{className}.cs", writableString);
         }
     }
 }

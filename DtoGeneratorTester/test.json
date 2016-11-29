@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "ThirdProperty",
-                    "type": "bool",
+                    "type": "boolean",
                     "format": ""
                 }
             ]
