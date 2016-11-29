@@ -18,6 +18,8 @@ namespace DtoGenerator
         internal static readonly List<IType> TypeList = new List<IType>();
         internal static List<ClassDescription> ClassList;
 
+        internal static readonly Dictionary<string, Type> TypeDictionary = new Dictionary<string, Type>();
+
         private readonly string _folderPath;
         private readonly string _namespaceName;
         private readonly int _taskCount;
@@ -94,6 +96,7 @@ namespace DtoGenerator
             TypeList.Add(new Integer64Type());
             TypeList.Add(new StringType());
             LoadAssemblies();
+            ConvertToDictionary();
             //todo make assembly loader
         }
 
@@ -133,6 +136,15 @@ namespace DtoGenerator
                         TypeList.Add(plugin);
                     }
                 }
+            }
+        }
+
+
+        private void ConvertToDictionary()
+        {
+            foreach (var type in TypeList)
+            {
+                TypeDictionary.Add(type.Format, type.Type);
             }
         }
     }

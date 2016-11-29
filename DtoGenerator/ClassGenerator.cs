@@ -59,12 +59,12 @@ namespace DtoGenerator
                     Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} thread is running");
                     var compilationUnit = SyntaxFactory.CompilationUnit();
                     var nameSpace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(_namespace));
-                    {
-                        var classCreation =
+                    
+                    var classCreation =
                             SyntaxFactory.ClassDeclaration(currentClass.ClassName)
                                 .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
                                     SyntaxFactory.Token(SyntaxKind.SealedKeyword)));
-                        foreach (var property in currentClass.Proprties)
+                        foreach (var property in currentClass.Properties)
                         {
                             PropertyDeclarationSyntax generatedProperty;
                             try
@@ -91,7 +91,6 @@ namespace DtoGenerator
                             classCreation = classCreation.AddMembers(generatedProperty);
                         }
                         nameSpace = nameSpace.AddMembers(classCreation);
-                    }
                     compilationUnit = compilationUnit.AddMembers(nameSpace);
                     WriteToFile(compilationUnit, currentClass.ClassName);
                 }
@@ -114,8 +113,8 @@ namespace DtoGenerator
 
 
         private string ReturnTypeName(PropertyDescription property)
-        {
-            return DtoGenarator.TypeList.Single(type => property.Format == type.Format).Type.ToString();
+        {              
+            return DtoGenarator.TypeList.Single(t => (t.Name == property.Type) && (t.Format == property.Format)).Type.ToString(); 
         }
 
 

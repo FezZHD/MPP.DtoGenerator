@@ -9,6 +9,6 @@ namespace DtoGenerator.DescriptionTypes
         internal string ClassName { get; set; }
 
         [JsonProperty("properties")]
-        internal List<PropertyDescription> Proprties { get; set; }
+        internal List<PropertyDescription> Properties { get; set; }
     }
 }
