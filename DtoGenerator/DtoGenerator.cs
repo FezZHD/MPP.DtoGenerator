@@ -45,7 +45,7 @@ namespace DtoGenerator
             }
             catch (JsonReaderException exception)
             {
-                Console.WriteLine($"Json was corrupted, pleas fix it.\n{exception.Message}");
+                Logger.Instance.GetException(new JsonReaderException($"Json was corrupted, pleas fix it.\n{exception.Message}"));
                 return;
             }
             LoadTypes();
@@ -53,7 +53,7 @@ namespace DtoGenerator
             {
                 generator.Generate();
             }
-                
+            Logger.Instance.PrintExceptions();   
         }
 
 
@@ -108,7 +108,7 @@ namespace DtoGenerator
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("Cannot find plugin folder\nPlugin folder was created, put your plugins in it");
+                Logger.Instance.GetException(new DirectoryNotFoundException("Cannot find plugin folder\nPlugin folder was created, put your plugins in it"));
                 Directory.CreateDirectory("plugins");
                 return;
             }
@@ -122,7 +122,7 @@ namespace DtoGenerator
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception.Message);
+                    Logger.Instance.GetException(exception);
                     continue;
                 }
                 Type[] typesInAssembly = pluginAssembly.GetExportedTypes();

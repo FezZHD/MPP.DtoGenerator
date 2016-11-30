@@ -10,7 +10,7 @@ using DtoGenerator.DescriptionTypes;
 
 namespace DtoGenerator
 {
-    internal class ClassGenerator: IDisposable
+    internal class ClassGenerator : IDisposable
     {
 
         private readonly string namespaceName;
@@ -19,7 +19,7 @@ namespace DtoGenerator
 
         private readonly SemaphoreSlim semaphore;
 
-        private readonly WaitHandle[] resetEvents = new WaitHandle[DtoGenarator.ClassList.Count]; 
+        private readonly WaitHandle[] resetEvents = new WaitHandle[DtoGenarator.ClassList.Count];
 
         internal ClassGenerator(string namespaceName, string outputFolder, int maxTaskCount)
         {
@@ -36,7 +36,7 @@ namespace DtoGenerator
             {
                 resetEvents[eventCount] = new ManualResetEvent(false);
                 semaphore.Wait();
-                ThreadPool.QueueUserWorkItem(GenerateClass, new object[] {currentClass ,resetEvents[eventCount]});
+                ThreadPool.QueueUserWorkItem(GenerateClass, new object[] {currentClass, resetEvents[eventCount]});
                 eventCount++;
             }
 
@@ -61,51 +61,50 @@ namespace DtoGenerator
                     Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} thread is running");
                     var compilationUnit = SyntaxFactory.CompilationUnit();
                     var nameSpace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(namespaceName));
-                    
+
                     var classCreation =
-                            SyntaxFactory.ClassDeclaration(currentClass.ClassName)
-                                .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
-                                    SyntaxFactory.Token(SyntaxKind.SealedKeyword)));
-                        foreach (var property in currentClass.Properties)
+                        SyntaxFactory.ClassDeclaration(currentClass.ClassName)
+                            .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
+                                SyntaxFactory.Token(SyntaxKind.SealedKeyword)));
+                    foreach (var property in currentClass.Properties)
+                    {
+                        PropertyDeclarationSyntax generatedProperty;
+                        try
                         {
-                            PropertyDeclarationSyntax generatedProperty;
-                            try
-                            {
-                                generatedProperty =
-                                    SyntaxFactory.PropertyDeclaration(
-                                        SyntaxFactory.ParseTypeName(ReturnTypeName(property)),
-                                        property.Name).AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
-                            }
-                            catch (InvalidOperationException)
-                            {
-                                Console.WriteLine(
-                                    $"Unknown type at property {property.Name}");
-                                Console.WriteLine($"Exception at thread {Thread.CurrentThread.ManagedThreadId}");
-                                continue;
-                            }
                             generatedProperty =
-                                generatedProperty.AddAccessorListAccessors(
-                                    SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
-                                        .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
-                            generatedProperty =
-                                generatedProperty.AddAccessorListAccessors(
-                                    SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
-                                        .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
-                            classCreation = classCreation.AddMembers(generatedProperty);
+                                SyntaxFactory.PropertyDeclaration(
+                                    SyntaxFactory.ParseTypeName(ReturnTypeName(property)),
+                                    property.Name).AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
                         }
+                        catch (InvalidOperationException)
+                        {
+                            Logger.Instance.GetException(
+                                new InvalidOperationException(
+                                    $"Unknown type at property {property.Name} at {currentClass.ClassName} class"));
+                            continue;
+                        }
+                        generatedProperty =
+                            generatedProperty.AddAccessorListAccessors(
+                                SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
+                                    .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
+                        generatedProperty =
+                            generatedProperty.AddAccessorListAccessors(
+                                SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+                                    .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
+                        classCreation = classCreation.AddMembers(generatedProperty);
+                    }
                     nameSpace = nameSpace.AddMembers(classCreation);
                     compilationUnit = compilationUnit.AddMembers(nameSpace);
                     WriteToFile(compilationUnit, currentClass.ClassName);
                 }
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
-                Console.WriteLine($"Exception at thread {Thread.CurrentThread.ManagedThreadId}");
+                Logger.Instance.GetException(ex);
             }
             catch (NullReferenceException ex)
             {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine($"Exception at thread {Thread.CurrentThread.ManagedThreadId}");
+                Logger.Instance.GetException(ex);
             }
             finally
             {
@@ -116,8 +115,10 @@ namespace DtoGenerator
 
 
         private string ReturnTypeName(PropertyDescription property)
-        {              
-            return DtoGenarator.TypeList.Single(t => (t.Name == property.Type) && (t.Format == property.Format)).Type.ToString(); 
+        {
+            return
+                DtoGenarator.TypeList.Single(t => (t.Name == property.Type) && (t.Format == property.Format))
+                    .Type.ToString();
         }
 
 
@@ -125,7 +126,14 @@ namespace DtoGenerator
         {
             SyntaxNode formattedNode = Formatter.Format(cu, new AdhocWorkspace());
             var writableString = formattedNode.ToFullString();
-            File.WriteAllText($"{folderPath}{Path.DirectorySeparatorChar}{className}.cs", writableString);
+            try
+            {
+                File.WriteAllText($"{folderPath}{Path.DirectorySeparatorChar}{className}.cs", writableString);
+            }
+            catch (IOException exception)
+            {
+                Logger.Instance.GetException(exception);
+            }
         }
 
         public void Dispose()
