@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DtoGenerator
 {
-    internal sealed class Logger
+    internal sealed class Logger:ILogger
     {
         private static Lazy<Logger> lazy = new Lazy<Logger>(()=> new Logger());
 
@@ -17,13 +17,13 @@ namespace DtoGenerator
         }
 
 
-        internal void GetException(Exception currentException)
+        public void GetException(Exception currentException)
         {
             exceptionList.Add(currentException);
         }
 
 
-        internal void PrintExceptions()
+        public void PrintExceptions()
         {
             foreach (var exception in exceptionList)
             {

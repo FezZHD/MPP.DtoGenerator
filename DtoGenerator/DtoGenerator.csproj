@@ -127,6 +127,7 @@
     <Compile Include="DescriptionTypes\ClassDescription.cs" />
     <Compile Include="DescriptionTypes\PropertyDescription.cs" />
     <Compile Include="DtoGenerator.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
