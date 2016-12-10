@@ -11,6 +11,8 @@ namespace DtoGenerator
 
         private readonly List<Exception> exceptionList = new List<Exception>();
 
+        private readonly object lockObject = new object();
+
         private Logger()
         {
             
@@ -19,7 +21,10 @@ namespace DtoGenerator
 
         public void GetException(Exception currentException)
         {
-            exceptionList.Add(currentException);
+            lock (lockObject)
+            {
+                exceptionList.Add(currentException);
+            }  
         }
 
 
