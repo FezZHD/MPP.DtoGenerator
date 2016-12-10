@@ -58,7 +58,6 @@ namespace DtoGenerator
                     {
                         throw new NullReferenceException("Class or reset event is empty");
                     }
-                    Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} thread is running");
                     var compilationUnit = SyntaxFactory.CompilationUnit();
                     var nameSpace = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(namespaceName));
 
@@ -71,10 +70,7 @@ namespace DtoGenerator
                         PropertyDeclarationSyntax generatedProperty;
                         try
                         {
-                            generatedProperty =
-                                SyntaxFactory.PropertyDeclaration(
-                                    SyntaxFactory.ParseTypeName(ReturnTypeName(property)),
-                                    property.Name).AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
+                            generatedProperty = GenerateProperty(property);
                         }
                         catch (InvalidOperationException)
                         {
@@ -83,14 +79,6 @@ namespace DtoGenerator
                                     $"Unknown type at property {property.Name} at {currentClass.ClassName} class"));
                             continue;
                         }
-                        generatedProperty =
-                            generatedProperty.AddAccessorListAccessors(
-                                SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
-                                    .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
-                        generatedProperty =
-                            generatedProperty.AddAccessorListAccessors(
-                                SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
-                                    .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
                         classCreation = classCreation.AddMembers(generatedProperty);
                     }
                     nameSpace = nameSpace.AddMembers(classCreation);
@@ -111,6 +99,22 @@ namespace DtoGenerator
                 resetEvent?.Set();
                 semaphore.Release();
             }
+        }
+
+
+
+        private PropertyDeclarationSyntax GenerateProperty(PropertyDescription property)
+        {
+            var generatedProperty = SyntaxFactory.PropertyDeclaration(
+                                    SyntaxFactory.ParseTypeName(ReturnTypeName(property)),
+                                    property.Name).AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
+            generatedProperty = generatedProperty.AddAccessorListAccessors(
+                              SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
+                                  .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
+            generatedProperty = generatedProperty.AddAccessorListAccessors(
+                    SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+                        .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)));
+            return generatedProperty;
         }
 
 
